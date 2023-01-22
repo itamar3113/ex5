@@ -10,9 +10,12 @@ class VigenereCipher(CaesarCipher):
 
     def encrypt(self, plaintext: str) -> str:
         encrypted = ""
+        j = 0
         for i in range(len(plaintext)):
-            super().setShifter(self.shifters[i % len(self.shifters)])
+            super().setShifter(self.shifters[j % len(self.shifters)])
             encrypted += super().encrypt(plaintext[i])
+            if plaintext[i].isalpha():
+                j += 1
         return encrypted
 
     def decrypt(self, ciphertext: str) -> str:
@@ -71,4 +74,7 @@ def processDirectory(dir_path: str):
                         new_filename = name + ".enc"
                         with open(os.path.join(dir_path, new_filename), 'w') as encrypted_file_result:
                             encrypted_file_result.write(encrypted_content)
+
+if __name__ == "__main__":
+    processDirectory("Files")
 
