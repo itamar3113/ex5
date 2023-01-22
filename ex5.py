@@ -44,14 +44,14 @@ def processDirectory(dir_path: str):
                     with open(os.path.join(dir_path, input_file), 'r') as encrypted_file:
                         encrypted_content = encrypted_file.read()
                         if instructions_dict['type'] == "Caesar":
-                            a = CaesarCipher(instructions_dict['key'])
-                            decrypted_content = a.decrypt(encrypted_content)
+                            caesar_input = CaesarCipher(instructions_dict['key'])
+                            decrypted_content = caesar_input.decrypt(encrypted_content)
                         if instructions_dict['type'] == "Vigenere":
                             if type(instructions_dict['key']) is str:
-                                a = getVigenereFromStr(instructions_dict['key'])
+                                vigenere_input = getVigenereFromStr(instructions_dict['key'])
                             else:
-                                a = VigenereCipher(instructions_dict['key'])
-                            decrypted_content = a.decrypt(encrypted_content)
+                                vigenere_input = VigenereCipher(instructions_dict['key'])
+                            decrypted_content = vigenere_input.decrypt(encrypted_content)
                         new_filename = name + ".txt"
                         with open(os.path.join(dir_path, new_filename), 'w') as decrypted_file_result:
                             decrypted_file_result.write(decrypted_content)
@@ -60,14 +60,14 @@ def processDirectory(dir_path: str):
                     with open(os.path.join(dir_path, input_file), 'r') as decrypted_file:
                         decrypted_content = decrypted_file.read()
                         if instructions_dict['type'] == "Caesar":
-                            a = CaesarCipher(instructions_dict['key'])
-                            encrypted_content = a.encrypt(decrypted_content)
+                            caesar_input = CaesarCipher(instructions_dict['key'])
+                            encrypted_content = caesar_input.encrypt(decrypted_content)
                         if instructions_dict['type'] == "Vigenere":
                             if type(instructions_dict['key']) is str:
-                                a = getVigenereFromStr(instructions_dict['key'])
+                                vigenere_input = getVigenereFromStr(instructions_dict['key'])
                             else:
-                                a = VigenereCipher(instructions_dict['key'])
-                            encrypted_content = a.encrypt(decrypted_content)
+                                vigenere_input = VigenereCipher(instructions_dict['key'])
+                            encrypted_content = vigenere_input.encrypt(decrypted_content)
                         new_filename = name + ".enc"
                         with open(os.path.join(dir_path, new_filename), 'w') as encrypted_file_result:
                             encrypted_file_result.write(encrypted_content)
