@@ -25,10 +25,3 @@ class CaesarCipher:
     # todo check if ligall
     def setShifter(self, shifter):
         self.shifter = shifter
-
-
-if __name__ == "__main__":
-    cipher = CaesarCipher(0)
-    print(cipher.encrypt("...AAAZ  wxy"))
-    cipher.setShifter(-3)
-    print(cipher.encrypt("...AAAZ  wxy"))
