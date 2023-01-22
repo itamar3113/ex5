@@ -52,7 +52,7 @@ def processDirectory(dir_path: str):
                             else:
                                 a = VigenereCipher(instructions_dict['key'])
                             decrypted_content = a.decrypt(encrypted_content)
-                        new_filename = os.path.join(input_file, ".txt")
+                        new_filename = name + ".txt"
                         with open(os.path.join(dir_path, new_filename), 'w') as decrypted_file_result:
                             decrypted_file_result.write(decrypted_content)
             else:
@@ -67,11 +67,8 @@ def processDirectory(dir_path: str):
                                 a = getVigenereFromStr(instructions_dict['key'])
                             else:
                                 a = VigenereCipher(instructions_dict['key'])
-                            encrypted_content = a.encrypt(encrypted_content)
+                            encrypted_content = a.encrypt(decrypted_content)
                         new_filename = name + ".enc"
                         with open(os.path.join(dir_path, new_filename), 'w') as encrypted_file_result:
                             encrypted_file_result.write(encrypted_content)
 
-
-if __name__ == "__main__":
-    processDirectory("tests\\test0e")
