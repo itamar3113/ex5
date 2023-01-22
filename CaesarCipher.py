@@ -1,4 +1,4 @@
-
+NUM_OF_LETTERS = 26
 
 class CaesarCipher:
     def __init__(self, shifter):
@@ -10,10 +10,10 @@ class CaesarCipher:
             if i.isalpha():
                 if i.islower():
                     encrypted += chr((ord(i) - ord('a') +
-                                     self.shifter) % 26 + ord('a'))
+                                     self.shifter) % NUM_OF_LETTERS + ord('a'))
                 else:
                     encrypted += chr((ord(i) - ord('A') +
-                                     self.shifter) % 26 + ord('A'))
+                                     self.shifter) % NUM_OF_LETTERS + ord('A'))
             else:
                 encrypted += i
         return encrypted
