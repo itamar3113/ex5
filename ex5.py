@@ -4,55 +4,69 @@ import os
 NUM_OF_LETTERS = 26
 
 class CaesarCipher:
-    def __init__(self, shifter):
-        self.shifter = shifter
+    def __init__(self, key):
+        self.key = key
 
+    #encrypt a given strin by Caesar code according to the key of the class.
+    # @param plaintext - the string to encrypt.
+    # @return - encrypted string.  
     def encrypt(self, plaintext: str) -> str:
         encrypted = ""
         for i in plaintext:
             if i.isalpha():
                 if i.islower():
                     encrypted += chr((ord(i) - ord('a') +
-                                     self.shifter) % NUM_OF_LETTERS + ord('a'))
+                                     self.key) % NUM_OF_LETTERS + ord('a'))
                 else:
                     encrypted += chr((ord(i) - ord('A') +
-                                     self.shifter) % NUM_OF_LETTERS + ord('A'))
+                                     self.key) % NUM_OF_LETTERS + ord('A'))
             else:
                 encrypted += i
         return encrypted
 
+    #decrypt a given strin by Caesar code accordong to the key of the class.
+    # @param ciphertext - the string to decrypt. 
+    # @return - decrypted string.
     def decrypt(self, ciphertext: str) -> str:
-        decryptor = CaesarCipher(-self.shifter)
+        decryptor = CaesarCipher(-self.key)
         return decryptor.encrypt(ciphertext)
 
-    # todo check if ligall
-    def setShifter(self, shifter):
-        self.shifter = shifter
+    #change the class's key
+    def setKey(self, shifter):
+        self.key = shifter
 
 
 class VigenereCipher(CaesarCipher):
-    def __init__(self, shifters):
-        super().__init__(shifters[0])
-        self.shifters = shifters
+    def __init__(self, keys):
+        super().__init__(keys[0])
+        self.keys = keys
 
+    # encrypt a given strin by Vigener code according to the class's list of keys.
+    # @param plaintext - the string to encrypt.
+    # @return - encrypted string.
     def encrypt(self, plaintext: str) -> str:
         encrypted = ""
-        j = 0
+        keyIndex = 0
         for i in range(len(plaintext)):
-            super().setShifter(self.shifters[j % len(self.shifters)])
+            super().setKey(self.keys[keyIndex % len(self.keys)])
             encrypted += super().encrypt(plaintext[i])
             if plaintext[i].isalpha():
-                j += 1
+                keyIndex += 1
         return encrypted
 
+    # decrypt a given strin by Vigener code according to the class's list of keys.
+    # @param plaintext - the string to decrypt.
+    # @return - decrypted string.
     def decrypt(self, ciphertext: str) -> str:
         reversedShifters = []
-        for i in self.shifters:
+        for i in self.keys:
             reversedShifters.append(-i)
         decryptor = VigenereCipher(reversedShifters)
         return decryptor.encrypt(ciphertext)
 
-
+# Extract from given text list of keys for a Vigenere code.
+# @param keyString - the given text.
+# @return - VigenereCipher with list of keys according to the given text.
 def getVigenereFromStr(keyString: str) -> VigenereCipher:
     keys = []
     for i in keyString:
@@ -63,7 +77,10 @@ def getVigenereFromStr(keyString: str) -> VigenereCipher:
                 keys.append(ord(i) - ord('A'))
     return VigenereCipher(keys)
 
-
+# Encrypt/decrypt file from give directory according to instructions in the configuration file in the directory.
+# the file contain the wanted action(encrypt/decrypt), wanted code(Caesar/Vigenere), and key to the code.
+# In case of encryption encrypt all the .txt files and save it in .enc files.
+# In case of decryption decrypt all the .enc files and save it in .txt files.
 def processDirectory(dir_path: str):
     with open(os.path.join(dir_path, "config.json"), 'r') as f:
         instructions_dict = json.load(f)
